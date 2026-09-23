@@ -1,0 +1,4 @@
+cc_library {
+    name: "libgui_camera_shim",
+    srcs: ["libgui_camera_shim.c"],
+}
