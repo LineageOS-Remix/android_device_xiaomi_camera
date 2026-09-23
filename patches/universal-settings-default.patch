@@ -1,0 +1,7 @@
+--- a/smali_classes7/com/android/camera/fragment/settings/UniversalSettingFragment.smali
++++ b/smali_classes7/com/android/camera/fragment/settings/UniversalSettingFragment.smali
+@@ -954,3 +954,3 @@
+-    const v5, 0x7f050067
++    const v5, 0x7f05006c
+ 
+     const v6, 0x7f130d53

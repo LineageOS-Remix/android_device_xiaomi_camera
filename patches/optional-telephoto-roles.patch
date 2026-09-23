@@ -1,0 +1,36 @@
+--- a/smali_classes2/d/c/a/q6/t8/b/q.smali
++++ b/smali_classes2/d/c/a/q6/t8/b/q.smali
+@@ -1780,15 +1780,7 @@
+ 
+     move-result v0
+ 
+-    if-ne v0, v2, :cond_1
+-
+-    const-string v2, "Camera2CompatAdapterRole"
+-
+-    const-string v3, "Warning: getAuxCameraId(): #init() failed, roleId=20"
+-
+-    new-array v1, v1, [Ljava/lang/Object;
+-
+-    invoke-static {v2, v3, v1}, Lcom/android/camera/log/Log;->w(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)V
++    # An absent optional telephoto role is not an initialization failure.
+     :try_end_1
+     .catchall {:try_start_1 .. :try_end_1} :catchall_0
+ 
+@@ -2381,15 +2373,7 @@
+ 
+     move-result v0
+ 
+-    if-ne v0, v2, :cond_1
+-
+-    const-string v2, "Camera2CompatAdapterRole"
+-
+-    const-string v3, "Warning: getUltraTeleCameraId(): #init() failed, roleId=23"
+-
+-    new-array v1, v1, [Ljava/lang/Object;
+-
+-    invoke-static {v2, v3, v1}, Lcom/android/camera/log/Log;->w(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)V
++    # An absent optional telephoto role is not an initialization failure.
+     :try_end_1
+     .catchall {:try_start_1 .. :try_end_1} :catchall_0
+ 

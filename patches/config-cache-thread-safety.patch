@@ -1,0 +1,107 @@
+--- a/smali_classes7/modify/ConfigManager.smali
++++ b/smali_classes7/modify/ConfigManager.smali
+@@ -492,7 +492,7 @@
+     return-object v0
+ .end method
+ 
+-.method private static loadDeviceConfigCache()V
++.method private static loadDeviceConfigCacheLocked()V
+     .locals 9
+ 
+     .line 75
+@@ -743,7 +743,7 @@
+     return-object v1
+ .end method
+ 
+-.method public static readFromFile(Ljava/lang/String;)Ljava/lang/Object;
++.method public static readFromFileLocked(Ljava/lang/String;)Ljava/lang/Object;
+     .locals 1
+     .param p0, "key"    # Ljava/lang/String;
+ 
+@@ -857,7 +857,7 @@
+     return-object v2
+ .end method
+ 
+-.method private static saveDeviceConfigCache()V
++.method private static saveDeviceConfigCacheLocked()V
+     .locals 8
+ 
+     .line 109
+@@ -1273,7 +1273,7 @@
+     return-void
+ .end method
+ 
+-.method public static writeToFile(Ljava/lang/String;Ljava/lang/Object;)V
++.method public static writeToFileLocked(Ljava/lang/String;Ljava/lang/Object;)V
+     .locals 1
+     .param p0, "key"    # Ljava/lang/String;
+     .param p1, "value"    # Ljava/lang/Object;
+@@ -1347,3 +1347,68 @@
+     .line 72
+     return-void
+ .end method
++
++.method private static loadDeviceConfigCache()V
++    .locals 2
++    const-class v1, Lmodify/ConfigManager;
++    monitor-enter v1
++    :try_start_cache
++    invoke-static {}, Lmodify/ConfigManager;->loadDeviceConfigCacheLocked()V
++    :try_end_cache
++    .catchall {:try_start_cache .. :try_end_cache} :cache_error
++    monitor-exit v1
++    return-void
++    :cache_error
++    move-exception v0
++    monitor-exit v1
++    throw v0
++.end method
++
++.method public static readFromFile(Ljava/lang/String;)Ljava/lang/Object;
++    .locals 2
++    const-class v1, Lmodify/ConfigManager;
++    monitor-enter v1
++    :try_start_cache
++    invoke-static {p0}, Lmodify/ConfigManager;->readFromFileLocked(Ljava/lang/String;)Ljava/lang/Object;
++    move-result-object v0
++    :try_end_cache
++    .catchall {:try_start_cache .. :try_end_cache} :cache_error
++    monitor-exit v1
++    return-object v0
++    :cache_error
++    move-exception v0
++    monitor-exit v1
++    throw v0
++.end method
++
++.method private static saveDeviceConfigCache()V
++    .locals 2
++    const-class v1, Lmodify/ConfigManager;
++    monitor-enter v1
++    :try_start_cache
++    invoke-static {}, Lmodify/ConfigManager;->saveDeviceConfigCacheLocked()V
++    :try_end_cache
++    .catchall {:try_start_cache .. :try_end_cache} :cache_error
++    monitor-exit v1
++    return-void
++    :cache_error
++    move-exception v0
++    monitor-exit v1
++    throw v0
++.end method
++
++.method public static writeToFile(Ljava/lang/String;Ljava/lang/Object;)V
++    .locals 2
++    const-class v1, Lmodify/ConfigManager;
++    monitor-enter v1
++    :try_start_cache
++    invoke-static {p0, p1}, Lmodify/ConfigManager;->writeToFileLocked(Ljava/lang/String;Ljava/lang/Object;)V
++    :try_end_cache
++    .catchall {:try_start_cache .. :try_end_cache} :cache_error
++    monitor-exit v1
++    return-void
++    :cache_error
++    move-exception v0
++    monitor-exit v1
++    throw v0
++.end method

@@ -1,0 +1,85 @@
+--- a/smali_classes2/d/c/b/x5/sp/j.smali
++++ b/smali_classes2/d/c/b/x5/sp/j.smali
+@@ -91,13 +91,19 @@
+ 
+     const/4 v0, 0x0
+ 
+-    if-eqz p0, :cond_3
++    if-eqz p0, :empty_scene
+ 
+     array-length v1, p0
+ 
++    if-eqz v1, :empty_scene
++
+     invoke-static {}, Ld/c/b/x5/sp/j$a;->a()I
+ 
+     move-result v2
++
++    rem-int v3, v1, v2
++
++    if-nez v3, :goto_2
+ 
+     if-ge v1, v2, :cond_0
+ 
+@@ -162,6 +168,11 @@
+     goto :goto_1
+ 
+     :cond_2
++    return-object p0
++
++    :empty_scene
++    const/4 p0, 0x0
++
+     return-object p0
+ 
+     :cond_3
+--- a/smali_classes2/d/c/a/q6/s8/a/h.smali
++++ b/smali_classes2/d/c/a/q6/s8/a/h.smali
+@@ -298,7 +298,7 @@
+     :cond_1
+     iget-object p2, p0, Ld/c/a/q6/s8/a/h;->e:Landroid/hardware/camera2/CaptureResult$Key;
+ 
+-    invoke-virtual {p1, p2}, Landroid/hardware/camera2/CaptureResult;->get(Landroid/hardware/camera2/CaptureResult$Key;)Ljava/lang/Object;
++    invoke-static {p1, p2}, Ld/c/a/q6/s8/a/h;->getOptionalFaceResult(Landroid/hardware/camera2/CaptureResult;Landroid/hardware/camera2/CaptureResult$Key;)Ljava/lang/Object;
+ 
+     move-result-object p1
+ 
+@@ -331,3 +331,38 @@
+ 
+     return-void
+ .end method
++
++# Missing face arrays occur on vendor results without face information.
++# Preserve framework validation whenever either array is present.
++.method private static getOptionalFaceResult(Landroid/hardware/camera2/CaptureResult;Landroid/hardware/camera2/CaptureResult$Key;)Ljava/lang/Object;
++    .locals 2
++
++    sget-object v0, Landroid/hardware/camera2/CaptureResult;->STATISTICS_FACES:Landroid/hardware/camera2/CaptureResult$Key;
++    invoke-virtual {v0, p1}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
++    move-result v0
++    if-eqz v0, :read_result
++
++    sget-object v0, Landroid/hardware/camera2/CaptureResult;->STATISTICS_FACE_SCORES:Landroid/hardware/camera2/CaptureResult$Key;
++    invoke-virtual {p0, v0}, Landroid/hardware/camera2/CaptureResult;->get(Landroid/hardware/camera2/CaptureResult$Key;)Ljava/lang/Object;
++    move-result-object v0
++    if-nez v0, :read_result
++
++    sget-object v0, Landroid/hardware/camera2/CaptureResult;->STATISTICS_FACE_RECTANGLES:Landroid/hardware/camera2/CaptureResult$Key;
++    invoke-virtual {p0, v0}, Landroid/hardware/camera2/CaptureResult;->get(Landroid/hardware/camera2/CaptureResult$Key;)Ljava/lang/Object;
++    move-result-object v0
++    if-nez v0, :read_result
++
++    sget-object v0, Landroid/hardware/camera2/CaptureResult;->STATISTICS_FACE_DETECT_MODE:Landroid/hardware/camera2/CaptureResult$Key;
++    invoke-virtual {p0, v0}, Landroid/hardware/camera2/CaptureResult;->get(Landroid/hardware/camera2/CaptureResult$Key;)Ljava/lang/Object;
++    move-result-object v0
++    if-eqz v0, :read_result
++
++    const/4 v0, 0x0
++    new-array v1, v0, [Landroid/hardware/camera2/params/Face;
++    return-object v1
++
++    :read_result
++    invoke-virtual {p0, p1}, Landroid/hardware/camera2/CaptureResult;->get(Landroid/hardware/camera2/CaptureResult$Key;)Ljava/lang/Object;
++    move-result-object v0
++    return-object v0
++.end method

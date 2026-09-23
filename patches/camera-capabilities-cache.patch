@@ -1,0 +1,37 @@
+--- a/smali_classes2/d/c/a/q6/t8/b/q.smali
++++ b/smali_classes2/d/c/a/q6/t8/b/q.smali
+@@ -407,16 +407,8 @@
+     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     :try_start_1
+ 
+-    new-instance v6, Landroid/util/SparseArray;
+-
+-    array-length v7, p2
+-
+-    invoke-direct {v6, v7}, Landroid/util/SparseArray;-><init>(I)V
+-
+-    iput-object v6, p0, Ld/c/a/q6/t8/b/o;->e:Landroid/util/SparseArray;
+-
+     iget-object v6, p0, Ld/c/a/q6/t8/b/o;->e:Landroid/util/SparseArray;
+ 
+     invoke-virtual {v6}, Landroid/util/SparseArray;->size()I
+ 
+--- a/smali_classes2/d/c/a/q6/t8/b/o.smali
++++ b/smali_classes2/d/c/a/q6/t8/b/o.smali
+@@ -287,16 +287,8 @@
+     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     :try_start_1
+ 
+-    new-instance v4, Landroid/util/SparseArray;
+-
+-    array-length v5, v5
+-
+-    invoke-direct {v4, v5}, Landroid/util/SparseArray;-><init>(I)V
+-
+-    iput-object v4, p0, Ld/c/a/q6/t8/b/o;->e:Landroid/util/SparseArray;
+-
+     iget-object p2, p0, Ld/c/a/q6/t8/b/o;->e:Landroid/util/SparseArray;
+ 
+     invoke-virtual {p2, p1, v3}, Landroid/util/SparseArray;->put(ILjava/lang/Object;)V
