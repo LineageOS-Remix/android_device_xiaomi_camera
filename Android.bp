@@ -1,0 +1,36 @@
+// MiuiCamera 5.x compatibility prebuilt.
+// Source: TOCO Global V13.0.4.0.SFNMIXM
+// SHA-1: d159aebabed57516153a2d203d6104c80b4c1a95
+cc_prebuilt_library_shared {
+    name: "libcamera_jpegutil_jni.xiaomi",
+    srcs: ["prebuilts/system/lib64/libcamera_jpegutil_jni.xiaomi.so"],
+    compile_multilib: "64",
+    strip: {
+        none: true,
+    },
+    check_elf_files: false,
+    prefer: true,
+}
+
+// MiuiCamera JNI library symlinks
+//
+// The shipped APK directly loads these JNI libraries with System.loadLibrary().
+// Keep app-local aliases for the system-side JNI prebuilts; the remaining
+// camera/OpenCL prebuilts stay in their stock system/system_ext locations.
+install_symlink {
+    name: "miui_camera_libcamera_algoup_symlink",
+    installed_location: "priv-app/MiuiCamera/lib/arm64/libcamera_algoup_jni.xiaomi.so",
+    symlink_target: "/system/lib64/libcamera_algoup_jni.xiaomi.so",
+}
+
+install_symlink {
+    name: "miui_camera_libcamera_jpegutil_symlink",
+    installed_location: "priv-app/MiuiCamera/lib/arm64/libcamera_jpegutil_jni.xiaomi.so",
+    symlink_target: "/system/lib64/libcamera_jpegutil_jni.xiaomi.so",
+}
+
+install_symlink {
+    name: "miui_camera_libcamera_mianode_symlink",
+    installed_location: "priv-app/MiuiCamera/lib/arm64/libcamera_mianode_jni.xiaomi.so",
+    symlink_target: "/system/lib64/libcamera_mianode_jni.xiaomi.so",
+}
