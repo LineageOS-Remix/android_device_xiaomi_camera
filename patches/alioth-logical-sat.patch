@@ -1,0 +1,38 @@
+--- a/smali_classes7/com/mi/config/DataItemFeature.smali
++++ b/smali_classes7/com/mi/config/DataItemFeature.smali
+@@ -3250,6 +3250,17 @@
+ 
+     if-nez v0, :cond_1
+ 
++    iget-object v0, p0, Lcom/mi/config/DataItemFeature;->A:Lcom/mi/device/Common;
++
++    instance-of v0, v0, Lcom/mi/device/Alioth;
++
++    if-eqz v0, :alioth_optical_zoom_cache
++
++    const/4 p0, 0x1
++
++    return p0
++
++    :alioth_optical_zoom_cache
+     const-string v0, "isSupportOpticalZoom"
+ 
+     invoke-static {v0}, Lmodify/ConfigManager;->readFromFile(Ljava/lang/String;)Ljava/lang/Object;
+--- a/smali_classes7/com/mi/device/Alioth.smali
++++ b/smali_classes7/com/mi/device/Alioth.smali
+@@ -1142,6 +1142,14 @@
+     return p0
+ .end method
+ 
++.method public isSupportOpticalZoom()Z
++    .locals 0
++
++    const/4 p0, 0x1
++
++    return p0
++.end method
++
+ .method public isSupportedPeakingMF()Z
+     .locals 0
+ 
+

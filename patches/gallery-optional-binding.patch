@@ -1,0 +1,29 @@
+--- a/smali/d/c/a/e4.smali
++++ b/smali/d/c/a/e4.smali
+@@ -1339,13 +1339,25 @@
+ 
+     invoke-virtual {v1, v2}, Landroid/content/Intent;->setPackage(Ljava/lang/String;)Landroid/content/Intent;
+ 
++    invoke-virtual {v0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
++
++    move-result-object v2
++
++    const/4 v4, 0x0
++
++    invoke-virtual {v2, v1, v4}, Landroid/content/pm/PackageManager;->resolveService(Landroid/content/Intent;I)Landroid/content/pm/ResolveInfo;
++
++    move-result-object v2
++
++    if-eqz v2, :cond_1
++
+     iget-object v2, p0, Ld/c/a/e4;->h:Landroid/content/ServiceConnection;
+ 
+     const/4 v4, 0x5
+ 
+     invoke-virtual {v0, v1, v2, v4}, Landroid/app/Activity;->bindService(Landroid/content/Intent;Landroid/content/ServiceConnection;I)Z
+ 
+-    const/4 v0, 0x1
++    move-result v0
+ 
+     iput-boolean v0, p0, Ld/c/a/e4;->e:Z
+     :try_end_0

@@ -1,0 +1,35 @@
+--- a/smali_classes2/d/c/a/k7/n.smali
++++ b/smali_classes2/d/c/a/k7/n.smali
+@@ -2017,6 +2017,10 @@
+ 
+     move-result v0
+ 
++    invoke-static {v0}, Ld/c/a/k7/n;->refreshAliothHeifThumbnail(Z)Z
++
++    move-result v0
++
+     if-eqz v0, :cond_4
+ 
+     iget-object v0, v14, Ld/c/a/k7/k;->c:Landroid/content/Context;
+@@ -2144,3 +2148,21 @@
+ 
+     return-void
+ .end method
++
++
++.method private static refreshAliothHeifThumbnail(Z)Z
++    .locals 2
++
++    # The provisional parallel thumbnail URI differs from the saved HEIF URI.
++    # Publish a thumbnail of the completed image even if a preview was provided.
++    if-nez p0, :enabled
++    sget-object v0, Landroid/os/Build;->DEVICE:Ljava/lang/String;
++    const-string v1, "alioth"
++    invoke-virtual {v0, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
++    move-result v0
++    return v0
++
++    :enabled
++    const/4 v0, 0x1
++    return v0
++.end method

@@ -1,0 +1,58 @@
+--- a/smali_classes4/d/m/f/e/e0.smali
++++ b/smali_classes4/d/m/f/e/e0.smali
+@@ -4531,7 +4531,14 @@
+ .end method
+ 
+ .method private p0()V
+-    .locals 1
++    .locals 2
++
++    # Alioth also uses HeifSaveRequest and must release its images on completion.
++    sget-object v0, Landroid/os/Build;->DEVICE:Ljava/lang/String;
++    const-string v1, "alioth"
++    invoke-virtual {v0, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
++    move-result v0
++    if-nez v0, :create_heif_callback
+ 
+     invoke-static {}, Lcom/mi/config/Device;->isMTKPlatform()Z
+ 
+@@ -4545,6 +4552,7 @@
+ 
+     if-eqz v0, :cond_0
+ 
++    :create_heif_callback
+     new-instance v0, Ld/m/f/e/e0$g;
+ 
+     invoke-direct {v0, p0}, Ld/m/f/e/e0$g;-><init>(Ld/m/f/e/e0;)V
+--- a/smali_classes2/d/c/d/c.smali
++++ b/smali_classes2/d/c/d/c.smali
+@@ -828,7 +828,12 @@
+ 
+     iget v5, v0, Ld/c/d/c;->U8:I
+ 
++    invoke-static {}, Ld/c/d/c;->useSingleBufferHeifInput()Z
++    move-result v4
++
+     invoke-direct {v3, v5, v4}, Landroid/graphics/SurfaceTexture;-><init>(IZ)V
++
++    const/4 v4, 0x1
+ 
+     iput-object v3, v0, Ld/c/d/c;->P8:Landroid/graphics/SurfaceTexture;
+ 
+@@ -2267,3 +2272,16 @@
+ 
+     throw p0
+ .end method
++
++
++.method private static useSingleBufferHeifInput()Z
++    .locals 2
++
++    # ImageWriter cannot attach to a single-buffer queue on AOSP.
++    sget-object v0, Landroid/os/Build;->DEVICE:Ljava/lang/String;
++    const-string v1, "alioth"
++    invoke-virtual {v0, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
++    move-result v0
++    xor-int/lit8 v0, v0, 0x1
++    return v0
++.end method

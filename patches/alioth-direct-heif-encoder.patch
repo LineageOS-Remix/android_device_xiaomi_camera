@@ -1,0 +1,44 @@
+--- a/smali_classes4/d/m/f/e/e0$e.smali
++++ b/smali_classes4/d/m/f/e/e0$e.smali
+@@ -1121,6 +1121,14 @@
+ 
+     if-eqz v4, :cond_8
+ 
++    # Use the stock HeifSaveRequest encoder for alioth's processed YUV.
++    # AOSP composite HEIC streams are incompatible with its virtual camera HAL.
++    invoke-static {v0}, Ld/m/f/e/e0$e;->useDirectAliothHeif(Landroid/media/Image;)Z
++
++    move-result v4
++
++    if-nez v4, :cond_5
++
+     invoke-static {}, Lcom/mi/config/Device;->isMTKPlatform()Z
+ 
+     move-result v4
+@@ -1903,3 +1911,26 @@
+ 
+     return-object p0
+ .end method
++
++
++.method private static useDirectAliothHeif(Landroid/media/Image;)Z
++    .locals 2
++
++    sget-object v0, Landroid/os/Build;->DEVICE:Ljava/lang/String;
++    const-string v1, "alioth"
++    invoke-virtual {v0, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
++    move-result v0
++    if-eqz v0, :unsupported
++
++    invoke-virtual {p0}, Landroid/media/Image;->getFormat()I
++    move-result v0
++    const/16 v1, 0x23
++    if-ne v0, v1, :unsupported
++
++    const/4 v0, 0x1
++    return v0
++
++    :unsupported
++    const/4 v0, 0x0
++    return v0
++.end method

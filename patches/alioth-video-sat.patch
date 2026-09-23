@@ -1,0 +1,69 @@
+--- a/smali_classes7/com/mi/config/DataItemFeature.smali
++++ b/smali_classes7/com/mi/config/DataItemFeature.smali
+@@ -15653,6 +15653,17 @@
+ .method public getVideoSATCameraId()I
+     .locals 2
+ 
++    iget-object v0, p0, Lcom/mi/config/DataItemFeature;->A:Lcom/mi/device/Common;
++
++    instance-of v0, v0, Lcom/mi/device/Alioth;
++
++    if-eqz v0, :alioth_video_sat_role
++
++    const/16 v0, 0x3c
++
++    return v0
++
++    :alioth_video_sat_role
+     invoke-static {}, Lmodify/UniversalSettings;->isUniversalSettings()Z
+ 
+     move-result v0
+@@ -22850,6 +22861,17 @@
+     return v0
+ 
+     :cond_0
++    iget-object v0, p0, Lcom/mi/config/DataItemFeature;->A:Lcom/mi/device/Common;
++
++    instance-of v0, v0, Lcom/mi/device/Alioth;
++
++    if-eqz v0, :alioth_video_sat_cache
++
++    const/4 p0, 0x1
++
++    return p0
++
++    :alioth_video_sat_cache
+     const-string v0, "supportVideoSAT"
+ 
+     invoke-static {v0}, Lmodify/ConfigManager;->readFromFile(Ljava/lang/String;)Ljava/lang/Object;
+--- a/smali_classes7/com/mi/device/Alioth.smali
++++ b/smali_classes7/com/mi/device/Alioth.smali
+@@ -278,6 +278,14 @@
+     return-object p0
+ .end method
+ 
++.method public getVideoSATCameraId()I
++    .locals 0
++
++    const/16 p0, 0x3c
++
++    return p0
++.end method
++
+ .method public getVLogMenuPosition()I
+     .locals 0
+ 
+@@ -1662,6 +1670,14 @@
+     return p0
+ .end method
+ 
++.method public supportVideoSAT()Z
++    .locals 0
++
++    const/4 p0, 0x1
++
++    return p0
++.end method
++
+ .method public supportZoomMfnr()Z
+     .locals 0

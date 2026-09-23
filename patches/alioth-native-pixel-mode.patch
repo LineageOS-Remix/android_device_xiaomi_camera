@@ -1,0 +1,33 @@
+--- a/smali/d/c/a/g6/b/v/g.smali
++++ b/smali/d/c/a/g6/b/v/g.smali
+@@ -13,7 +13,7 @@
+ .end method
+ 
+ .method private b(Ld/c/a/g6/b/b;)I
+-    .locals 0
++    .locals 1
+     .annotation build Ld/c/a/k6/d;
+         ignore = false
+         key = "!supportAlgoUp"
+@@ -48,6 +48,21 @@
+     goto :goto_0
+ 
+     :cond_0
++    sget-object p0, Landroid/os/Build;->DEVICE:Ljava/lang/String;
++
++    const-string v0, "alioth"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
++
++    move-result p0
++
++    if-eqz p0, :legacy_upscale
++
++    const p0, 0x80f5
++
++    goto :goto_0
++
++    :legacy_upscale
+     const p0, 0x80f3
+ 
+     :cond_1

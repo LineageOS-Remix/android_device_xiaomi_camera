@@ -1,0 +1,106 @@
+--- a/smali_classes2/d/c/a/k7/z.smali
++++ b/smali_classes2/d/c/a/k7/z.smali
+@@ -3027,6 +3027,27 @@
+ 
+     move/from16 v0, p7
+ 
++    # The HAL may return JPEG despite a HEIF request. Match the actual payload.
++    if-eqz v0, :format_checked
++    if-eqz v13, :format_checked
++    array-length v1, v13
++    const/4 v2, 0x3
++    if-lt v1, v2, :format_checked
++    const/4 v1, 0x0
++    aget-byte v1, v13, v1
++    const/4 v2, -0x1
++    if-ne v1, v2, :format_checked
++    const/4 v1, 0x1
++    aget-byte v1, v13, v1
++    const/16 v2, -0x28
++    if-ne v1, v2, :format_checked
++    const/4 v1, 0x2
++    aget-byte v1, v13, v1
++    const/4 v2, -0x1
++    if-ne v1, v2, :format_checked
++    const/4 v0, 0x0
++    :format_checked
++
+     move/from16 v12, p10
+ 
+     invoke-static {}, Ld/m/f/q/g;->d()V
+--- a/smali/d/c/a/m5.smali
++++ b/smali/d/c/a/m5.smali
+@@ -20692,6 +20692,11 @@
+ 
+     :cond_0
+     :try_start_0
++    invoke-static {p0, p1}, Ld/c/a/m5;->isVisibleMediaUri(Landroid/net/Uri;Landroid/content/ContentResolver;)Z
++    move-result v2
++    if-nez v2, :media_uri_visible
++    return v1
++    :media_uri_visible
+     const-string v2, "r"
+ 
+     invoke-virtual {p1, p0, v2}, Landroid/content/ContentResolver;->openFileDescriptor(Landroid/net/Uri;Ljava/lang/String;)Landroid/os/ParcelFileDescriptor;
+@@ -28162,3 +28167,50 @@
+ 
+     return-void
+ .end method
++
++.method private static isVisibleMediaUri(Landroid/net/Uri;Landroid/content/ContentResolver;)Z
++    .locals 6
++    const/4 v0, 0x1
++    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
++    const/16 v2, 0x1e
++    if-lt v1, v2, :visible_media_return
++    invoke-virtual {p0}, Landroid/net/Uri;->getAuthority()Ljava/lang/String;
++    move-result-object v1
++    const-string v2, "media"
++    invoke-virtual {v2, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++    move-result v1
++    if-nez v1, :query_visible_media
++    :visible_media_return
++    return v0
++    :query_visible_media
++    :try_start_visible
++    move-object v0, p1
++    move-object v1, p0
++    const-string v2, "_id"
++    filled-new-array {v2}, [Ljava/lang/String;
++    move-result-object v2
++    const-string v3, "is_trashed=0 AND is_pending=0"
++    const/4 v4, 0x0
++    const/4 v5, 0x0
++    invoke-virtual/range {v0 .. v5}, Landroid/content/ContentResolver;->query(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
++    move-result-object v0
++    if-eqz v0, :invisible_media
++    :try_end_visible
++    .catch Ljava/lang/RuntimeException; {:try_start_visible .. :try_end_visible} :query_visible_error
++    :try_start_cursor
++    invoke-interface {v0}, Landroid/database/Cursor;->moveToFirst()Z
++    move-result v1
++    :try_end_cursor
++    .catchall {:try_start_cursor .. :try_end_cursor} :close_visible_cursor
++    invoke-interface {v0}, Landroid/database/Cursor;->close()V
++    return v1
++    :close_visible_cursor
++    move-exception v1
++    invoke-interface {v0}, Landroid/database/Cursor;->close()V
++    throw v1
++    :query_visible_error
++    move-exception v0
++    :invisible_media
++    const/4 v0, 0x0
++    return v0
++.end method
+--- a/smali/d/c/a/j5.smali
++++ b/smali/d/c/a/j5.smali
+@@ -1899,7 +1899,7 @@
+ 
+     if-lt v3, v4, :cond_0
+ 
+-    const-string v3, "is_favorite != -1 AND "
++    const-string v3, "is_trashed=0 AND is_pending=0 AND is_favorite != -1 AND "
+ 
+     goto :goto_0
+ 

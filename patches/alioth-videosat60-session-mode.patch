@@ -1,0 +1,51 @@
+diff --git a/smali/d/c/a/g6/b/f.smali b/smali/d/c/a/g6/b/f.smali
+index 7ab2746a..d5407c53 100644
+--- a/smali/d/c/a/g6/b/f.smali
++++ b/smali/d/c/a/g6/b/f.smali
+@@ -261,6 +261,46 @@
+     goto :goto_3
+ 
+     :cond_a
++    # Alioth VideoSAT must not re-enable EIS through the 60fps session mode.
++    # v3 already contains the non-EIS mode chosen above; v0 is EIS enabled.
++    if-nez v0, :alioth_sat60_default
++
++    sget-object v1, Landroid/os/Build;->DEVICE:Ljava/lang/String;
++
++    const-string v6, "alioth"
++
++    invoke-virtual {v6, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v6
++
++    if-nez v6, :alioth_sat60_camera
++
++    const-string v6, "aliothin"
++
++    invoke-virtual {v6, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
++
++    move-result v1
++
++    if-eqz v1, :alioth_sat60_default
++
++    :alioth_sat60_camera
++    invoke-virtual {p0}, Ld/c/a/g6/b/e;->a()I
++
++    move-result v1
++
++    const/4 v6, 0x4
++
++    if-ne v1, v6, :alioth_sat60_default
++
++    const v1, 0xf010
++
++    if-ne v3, v1, :alioth_sat60_default
++
++    move v4, v3
++
++    goto :goto_3
++
++    :alioth_sat60_default
+     const v4, 0x803c
+ 
+     goto :goto_3

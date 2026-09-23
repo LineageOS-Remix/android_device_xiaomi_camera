@@ -1,0 +1,50 @@
+--- smali_classes2/d/c/a/q6/w8/i0.smali
++++ smali_classes2/d/c/a/q6/w8/i0.smali
+@@ -361,6 +361,47 @@
+ .method public d()V
+     .locals 2
+ 
++    # Alioth's vendor face tracker corrupts memory during front-video setup.
++    sget-object v0, Landroid/os/Build;->DEVICE:Ljava/lang/String;
++
++    const-string v1, "alioth"
++
++    invoke-virtual {v0, v1}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
++
++    move-result v0
++
++    if-eqz v0, :alioth_fd_original
++
++    iget-object v0, p0, Ld/c/a/q6/w8/i0;->g:Ld/c/a/q6/j8;
++
++    iget v1, v0, Ld/c/a/q6/r7;->m:I
++
++    const/16 v0, 0xa2
++
++    if-ne v1, v0, :alioth_fd_original
++
++    iget-object v0, p0, Ld/c/a/q6/w8/i0;->g:Ld/c/a/q6/j8;
++
++    invoke-virtual {v0}, Ld/c/a/q6/r7;->Wg()Ld/c/a/q6/n8/s;
++
++    move-result-object v0
++
++    invoke-interface {v0}, Ld/c/a/q6/n8/s;->O1()Z
++
++    move-result v0
++
++    if-eqz v0, :alioth_fd_original
++
++    const-string v0, "FaceDetectManager"
++
++    const-string v1, "Skip alioth front-video face detection"
++
++    invoke-static {v0, v1}, Lcom/android/camera/log/Log;->v(Ljava/lang/String;Ljava/lang/String;)V
++
++    return-void
++
++    :alioth_fd_original
++
+     iget-boolean v0, p0, Ld/c/a/q6/w8/i0;->f:Z
+ 
+     if-eqz v0, :cond_2
