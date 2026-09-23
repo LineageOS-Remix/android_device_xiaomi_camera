@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Stock alioth privileged permission for the ExtraPhoto companion app. -->
+<permissions>
+    <privapp-permissions package="com.miui.extraphoto">
+        <permission name="android.permission.WRITE_MEDIA_STORAGE"/>
+    </privapp-permissions>
+</permissions>

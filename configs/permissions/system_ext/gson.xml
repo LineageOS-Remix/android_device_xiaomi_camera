@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ExtraPhotoGlobal declares <uses-library android:name="gson.jar"/>. -->
+<permissions>
+    <library
+        name="gson.jar"
+        file="/system_ext/framework/gson.jar"/>
+</permissions>

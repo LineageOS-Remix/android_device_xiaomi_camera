@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<exceptions>
+    <exception package="com.android.camera">
+        <!-- Camera -->
+        <permission name="android.permission.CAMERA" fixed="true" />
+        <!-- Location -->
+        <permission name="android.permission.ACCESS_FINE_LOCATION" fixed="true" />
+        <permission name="android.permission.ACCESS_COARSE_LOCATION" fixed="true" />
+        <!-- Microphone -->
+        <permission name="android.permission.RECORD_AUDIO" fixed="true" />
+        <!-- Legacy storage permissions for camera APKs targeting Android 12 or earlier. -->
+        <permission name="android.permission.READ_EXTERNAL_STORAGE" fixed="true" />
+        <permission name="android.permission.WRITE_EXTERNAL_STORAGE" fixed="true" />
+        <!-- Android 13+ gallery access; users can revoke these grants. -->
+        <permission name="android.permission.READ_MEDIA_IMAGES" fixed="false" />
+        <permission name="android.permission.READ_MEDIA_VIDEO" fixed="false" />
+    </exception>
+</exceptions>
