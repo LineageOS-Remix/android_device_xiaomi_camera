@@ -1,0 +1,2 @@
+# Package, platform certificate and privileged install must all match.
+user=_app seinfo=platform isPrivApp=true name=com.android.camera domain=miui_camera_platform_domain type=miui_camera_data_file levelFrom=all

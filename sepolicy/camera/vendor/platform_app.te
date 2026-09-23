@@ -1,0 +1,27 @@
+# Allow to find camera hal
+allow miui_camera_platform_domain hal_xiaomi_camera_hwservice:hwservice_manager find;
+
+# Allow to call camera hidl
+binder_call(miui_camera_platform_domain, hal_camera_default)
+
+# Allow to read camera props
+get_prop(miui_camera_platform_domain, vendor_camera_prop)
+get_prop(miui_camera_platform_domain, vendor_camera_sensor_prop)
+
+allow miui_camera_platform_domain cgroup:file r_file_perms;
+
+# Allow to read display props
+get_prop(miui_camera_platform_domain, vendor_display_prop)
+
+# Allow to read audio props
+get_prop(miui_camera_platform_domain, vendor_audio_prop)
+
+# Allow to access proc/stat
+allow miui_camera_platform_domain proc_stat:file read;
+
+# Camera Post Processing
+typeattribute miui_camera_platform_domain halclientdomain;
+typeattribute miui_camera_platform_domain vendor_hal_camerapostproc_xiaomi_client;
+
+allow miui_camera_platform_domain vendor_hal_camerapostproc_xiaomi_hwservice:hwservice_manager find;
+

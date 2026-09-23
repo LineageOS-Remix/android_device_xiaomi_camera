@@ -1,0 +1,13 @@
+# Qigsaw installs Mimoji native splits into Camera's private data.
+# Keep the executable-data exception separate from generic app_data_file.
+type miui_camera_data_file, file_type, data_file_type, core_data_file_type, app_data_file_type;
+
+allow miui_camera_platform_domain miui_camera_data_file:dir create_dir_perms;
+allow miui_camera_platform_domain miui_camera_data_file:file { create_file_perms execute };
+allow miui_camera_platform_domain miui_camera_data_file:lnk_file create_file_perms;
+allow miui_camera_platform_domain miui_camera_data_file:fifo_file create_file_perms;
+allow miui_camera_platform_domain miui_camera_data_file:sock_file create_file_perms;
+
+# MediaRecorder receives an already-open temporary video file from Camera.
+# Match mediaserver's standard app-data FD permissions, without path access.
+allow mediaserver miui_camera_data_file:file { append getattr ioctl lock map read write };
