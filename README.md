@@ -34,13 +34,13 @@ the device-common tree. It currently provides:
 ### 1. Clone the device-side camera integration
 
 ```bash
-git clone https://github.com/PocoF3Releases/device_xiaomi_camera.git -b aosp-16 device/xiaomi/camera
+git clone https://github.com/PocoF3Releases/device_xiaomi_camera.git -b aosp-17 device/xiaomi/camera
 ```
 
 ### 2. Clone the companion proprietary vendor repository
 
 ```bash
-git clone https://gitlab.com/johnmart19/vendor_xiaomi_camera.git -b aosp-16 vendor/xiaomi/camera
+git clone https://gitlab.com/johnmart19/vendor_xiaomi_camera.git -b aosp-17 vendor/xiaomi/camera
 ```
 
 ### 3. Include Xiaomi Camera from the device tree
@@ -94,8 +94,36 @@ The September 23 device capture showed 4K60 preview corruption with mode
 `0x803c`, request stabilization OFF, result stabilization ON, and repeated
 CHIEISV3 missing-output and EIS-margin errors. All eight installed DEX files
 matched the previous vendor APK. The correction was assembled and the APK
-passed 16 KiB zip alignment checks; corrected device output is not yet verified.
+passed 16 KiB zip alignment checks. Root-mounted device tests subsequently
+verified clean main-camera 3840x2160 recordings at approximately 30.03 and
+60.04 fps, including decoding the saved H.264/AAC clips.
 
 Extraction applies the patch through the existing `apktool_patch('patches')`
 step. The corresponding aligned APK is maintained in `vendor/xiaomi/camera`;
 ROM packaging signs it with the platform certificate. No ROM build was run.
+
+## Alioth ultrawide video limits
+
+`patches/alioth-ultrawide-video-limits.patch` keeps normal Video mode at 1x
+or above when 4K is selected on alioth/aliothin. It filters the zoom buttons,
+constrains the shared zoom range, and handles the stale 0.6x toolbar selection
+while changing resolution. Photo and 720p/1080p zoom choices are unchanged.
+
+This prevents a broken mode; it does not implement ultrawide 4K. The installed
+IMX355 advertises a maximum 3280-pixel width, and switching the existing 4K
+VideoSAT pipeline to it reproducibly fails DSX10/MNDS scaling and triggers
+pipeline recovery. Main-camera 4K30 and 4K60 remain available.
+
+September 23 rooted-device validation:
+
+- 4K30 and 4K60 expose 1x/2x and save decodable H.264/AAC recordings.
+- Changing from 1080p at 0.6x to either 4K mode restores 1x without a Java crash
+  or DSX10/MNDS errors in the captured transition logs.
+- 1080p30 ultrawide records at approximately 30.05 fps and decodes cleanly.
+- The existing 1080p60 ultrawide selection also measured approximately 30.05
+  fps in this test scene. It must not be described as verified 60fps output.
+
+Apply this patch through the same extraction patch directory, rebuild only the
+APK with apktool, and align it using `zipalign -P 16 4` before replacing the
+companion vendor prebuilt. A system-path bind mount was used for testing; no
+ROM was rebuilt or flashed. Such a test mount disappears after reboot.
