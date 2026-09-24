@@ -12,8 +12,9 @@ This repository is intended to live at:
 device/xiaomi/camera
 ```
 
-The proprietary camera APK and vendor libraries are kept separately in the
-companion `vendor/xiaomi/camera` repository.
+The ready-to-use camera APK and required proprietary libraries are provided by
+the companion [GitLab repository](https://gitlab.com/johnmart19/vendor_xiaomi_camera).
+Clone both repositories to integrate Xiaomi Camera into the ROM.
 
 ## What this repository owns
 
@@ -27,7 +28,6 @@ the device-common tree. It currently provides:
 - Camera compatibility shims and vendor-library symlinks
 - `MiuiCameraOverlay`
 - Camera-related system and vendor properties
-- Maintenance patches for alioth camera compatibility
 
 ## Integration
 
@@ -41,6 +41,12 @@ git clone https://github.com/PocoF3Releases/device_xiaomi_camera.git -b aosp-17 
 
 ```bash
 git clone https://gitlab.com/johnmart19/vendor_xiaomi_camera.git -b aosp-17 vendor/xiaomi/camera
+```
+
+The vendor repository uses Git LFS. Ensure its prebuilt files are downloaded:
+
+```bash
+git -C vendor/xiaomi/camera lfs pull
 ```
 
 ### 3. Include Xiaomi Camera from the device tree
@@ -68,8 +74,7 @@ matrix or pretend that a compatibility matrix provides the runtime service.
 ## Repository layout
 
 ```text
-configs/       Camera configs, permissions, device features and VINTF fragments
-patches/      Maintained Xiaomi Camera compatibility patches
+configs/      Camera configs, permissions, device features and VINTF fragments
 rro_overlays/ Xiaomi Camera resource overlays
 sepolicy/     Camera SELinux policy
 shims/        Compatibility shims
@@ -78,52 +83,5 @@ miuicamera.mk Main product integration entry point
 
 ## Companion repository
 
-Proprietary Xiaomi Camera prebuilts:
-
-https://gitlab.com/johnmart19/vendor_xiaomi_camera
-
-## Alioth 4K60 VideoSAT session guard
-
-`patches/alioth-videosat60-session-mode.patch` prevents the 60fps branch in
-`VideoModuleDeviceParam.k()` from replacing non-EIS mode `0xf010` with
-`0x803c` on alioth/aliothin logical camera 4. The existing 4K EIS guard
-controls stabilization; this patch preserves its session-mode decision.
-Other devices, camera IDs and EIS-enabled sessions retain their original modes.
-
-The September 23 device capture showed 4K60 preview corruption with mode
-`0x803c`, request stabilization OFF, result stabilization ON, and repeated
-CHIEISV3 missing-output and EIS-margin errors. All eight installed DEX files
-matched the previous vendor APK. The correction was assembled and the APK
-passed 16 KiB zip alignment checks. Root-mounted device tests subsequently
-verified clean main-camera 3840x2160 recordings at approximately 30.03 and
-60.04 fps, including decoding the saved H.264/AAC clips.
-
-Extraction applies the patch through the existing `apktool_patch('patches')`
-step. The corresponding aligned APK is maintained in `vendor/xiaomi/camera`;
-ROM packaging signs it with the platform certificate. No ROM build was run.
-
-## Alioth ultrawide video limits
-
-`patches/alioth-ultrawide-video-limits.patch` keeps normal Video mode at 1x
-or above when 4K is selected on alioth/aliothin. It filters the zoom buttons,
-constrains the shared zoom range, and handles the stale 0.6x toolbar selection
-while changing resolution. Photo and 720p/1080p zoom choices are unchanged.
-
-This prevents a broken mode; it does not implement ultrawide 4K. The installed
-IMX355 advertises a maximum 3280-pixel width, and switching the existing 4K
-VideoSAT pipeline to it reproducibly fails DSX10/MNDS scaling and triggers
-pipeline recovery. Main-camera 4K30 and 4K60 remain available.
-
-September 23 rooted-device validation:
-
-- 4K30 and 4K60 expose 1x/2x and save decodable H.264/AAC recordings.
-- Changing from 1080p at 0.6x to either 4K mode restores 1x without a Java crash
-  or DSX10/MNDS errors in the captured transition logs.
-- 1080p30 ultrawide records at approximately 30.05 fps and decodes cleanly.
-- The existing 1080p60 ultrawide selection also measured approximately 30.05
-  fps in this test scene. It must not be described as verified 60fps output.
-
-Apply this patch through the same extraction patch directory, rebuild only the
-APK with apktool, and align it using `zipalign -P 16 4` before replacing the
-companion vendor prebuilt. A system-path bind mount was used for testing; no
-ROM was rebuilt or flashed. Such a test mount disappears after reboot.
+[Ready-to-use APK and proprietary libraries on GitLab](https://gitlab.com/johnmart19/vendor_xiaomi_camera)
+— use the matching `aosp-17` branch.
