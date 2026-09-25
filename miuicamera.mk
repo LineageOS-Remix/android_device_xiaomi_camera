@@ -7,6 +7,9 @@
 CAMERA_PATH := device/xiaomi/camera
 CAMERA_VENDOR_PATH := vendor/xiaomi/camera
 
+TARGET_USES_MIUI_CAMERA := true
+TARGET_INCLUDES_MIUI_CAMERA := true
+
 # Permissions
 PRODUCT_COPY_FILES += \
      $(call find-copy-subdir-files,*,$(CAMERA_PATH)/configs/permissions/default-permissions/,$(TARGET_COPY_OUT_SYSTEM)/etc/default-permissions) \
