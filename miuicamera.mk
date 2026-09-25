@@ -78,4 +78,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     MiuiCameraOverlay
 
+# VINTF
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
+    $(CAMERA_PATH)/configs/vintf/camera_framework_compatibility_matrix.xml \
+
 $(call inherit-product, $(CAMERA_VENDOR_PATH)/camera-vendor.mk)
