@@ -19,15 +19,15 @@ from extract_utils.main import (
 )
 
 blob_fixups: blob_fixups_user_type = {
-    'system/priv-app/MiuiCamera/MiuiCamera.apk': blob_fixup()
-        .apktool_patch('patches'),
-    'system/lib64/libcamera_mianode_jni.xiaomi.so': blob_fixup()
+    'system_ext/lib64/libcamera_mianode_jni.xiaomi.so': blob_fixup()
         .add_needed('libgui_camera_shim.so'),
-    'system/lib64/libmicampostproc_client.so': blob_fixup()
+    'system_ext/lib64/libmicampostproc_client.so': blob_fixup()
         .remove_needed('libhidltransport.so'),
-    'system/lib64/libcamera_algoup_jni.xiaomi.so': blob_fixup()
+    'system_ext/lib64/libcamera_algoup_jni.xiaomi.so': blob_fixup()
         .add_needed('libgui_camera_shim.so')
         .sig_replace('08 AD 40 F9', '08 A9 40 F9'),
+    'system_ext/lib64/libmodemenhance_aidl_client.so': blob_fixup()
+        .add_needed('libbinder_shim.so'),
 }  # fmt: skip
 
 lib_fixups: lib_fixups_user_type = {
@@ -40,7 +40,7 @@ lib_fixups: lib_fixups_user_type = {
 namespace_imports = [
     'hardware/qcom-caf/common/libqti-perfd-client',
     'vendor/qcom/opensource/display',
-    'vendor/xiaomi/alioth',
+    'vendor/xiaomi/pipa',
     'vendor/xiaomi/sm8250-common',
 ]
 

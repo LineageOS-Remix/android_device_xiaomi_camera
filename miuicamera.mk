@@ -16,19 +16,13 @@ PRODUCT_COPY_FILES += \
      $(call find-copy-subdir-files,*,$(CAMERA_PATH)/configs/permissions/permissions/,$(TARGET_COPY_OUT_SYSTEM)/etc/permissions) \
      $(call find-copy-subdir-files,*,$(CAMERA_PATH)/configs/permissions/sysconfig/,$(TARGET_COPY_OUT_SYSTEM)/etc/sysconfig)
 
-# ExtraPhoto
-PRODUCT_COPY_FILES += \
-    $(CAMERA_PATH)/configs/permissions/product/privapp-permissions-extraphoto.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp-permissions-extraphoto.xml \
-    $(CAMERA_PATH)/configs/permissions/system_ext/gson.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/gson.xml
-
 # CameraX Config Overwrite
 PRODUCT_COPY_FILES += \
      $(CAMERA_PATH)/configs/camera/camxoverridesettings.txt:$(TARGET_COPY_OUT_VENDOR)/etc/camera/camxoverridesettings.txt
 
 # Device-Features
 PRODUCT_COPY_FILES += \
-     $(CAMERA_PATH)/configs/device_features/alioth.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/device_features/alioth.xml \
-     $(CAMERA_PATH)/configs/device_features/aliothin.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/device_features/aliothin.xml
+     $(CAMERA_PATH)/configs/device_features/pipa.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/device_features/pipa.xml
 
 # Shims
 PRODUCT_PACKAGES += \

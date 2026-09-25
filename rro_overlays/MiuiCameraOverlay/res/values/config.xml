@@ -26,16 +26,8 @@
    <!-- Experimental - Enable 4k 60fps Support -->
    <bool name="pref_4k60_default">true</bool>
 
-   <!-- Use the alioth device profile by default; universal overrides remain opt-in. -->
+   <!-- Use the pipa device profile by default; universal overrides remain opt-in. -->
    <bool name="use_universal_settings">false</bool>
-
-   <!-- Alioth stock rear QCFA mode: native 48 MP. Universal settings otherwise
-        replaces the device profile with an empty high-resolution default. -->
-   <string name="pref_uhd_wide_default" translatable="false">1:8000x6000</string>
-
-   <!-- Keep Alioth rear main + ultrawide on the HAL logical SAT camera by default.
-        The app still respects an explicitly persisted user/lab setting. -->
-   <bool name="pref_camera_dual_sat_enable_default">true</bool>
 
    <!-- Enable Smart Tips Support -->
    <bool name="pref_camera_smart_tip_default">true</bool>

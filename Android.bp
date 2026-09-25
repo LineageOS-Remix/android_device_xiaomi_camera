@@ -20,17 +20,17 @@ cc_prebuilt_library_shared {
 install_symlink {
     name: "miui_camera_libcamera_algoup_symlink",
     installed_location: "priv-app/MiuiCamera/lib/arm64/libcamera_algoup_jni.xiaomi.so",
-    symlink_target: "/system/lib64/libcamera_algoup_jni.xiaomi.so",
+    symlink_target: "/system_ext/lib64/libcamera_algoup_jni.xiaomi.so",
 }
 
 install_symlink {
     name: "miui_camera_libcamera_jpegutil_symlink",
     installed_location: "priv-app/MiuiCamera/lib/arm64/libcamera_jpegutil_jni.xiaomi.so",
-    symlink_target: "/system/lib64/libcamera_jpegutil_jni.xiaomi.so",
+    symlink_target: "/system_ext/lib64/libcamera_jpegutil_jni.xiaomi.so",
 }
 
 install_symlink {
     name: "miui_camera_libcamera_mianode_symlink",
     installed_location: "priv-app/MiuiCamera/lib/arm64/libcamera_mianode_jni.xiaomi.so",
-    symlink_target: "/system/lib64/libcamera_mianode_jni.xiaomi.so",
+    symlink_target: "/system_ext/lib64/libcamera_mianode_jni.xiaomi.so",
 }

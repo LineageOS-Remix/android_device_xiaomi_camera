@@ -1,17 +1,16 @@
-# From Alioth HyperOS 1.0.3.0 Mi package
+# Unpinned blobs from pipa_pad_cn-user 14 UKQ1.240624.001 OS2.0.20.0.UMZCNXM release-keys
 
-# Leica App Custom Mod
-system/priv-app/MiuiCamera/MiuiCamera.apk;OVERRIDES=GrapheneCamera,Camera,Camera2,Aperture,GoogleCameraGo
+# MIUI Camera App
+product/priv-app/MiuiCamera/MiuiCamera.apk;OVERRIDES=GrapheneCamera,Camera,Camera2,Aperture,GoogleCameraGo
 
 # ExtraPhoto
-product/priv-app/ExtraPhotoGlobal/ExtraPhotoGlobal.apk
 system_ext/framework/gson.jar;MAKE_COPY_RULE_ONLY
 
 # Device Prebuilts
-system/lib64/libcamera_algoup_jni.xiaomi.so
-system/lib64/libcamera_mianode_jni.xiaomi.so
-system/lib64/libmicampostproc_client.so
-system/lib64/vendor.xiaomi.hardware.campostproc@1.0.so
+system_ext/lib64/libcamera_algoup_jni.xiaomi.so
+system_ext/lib64/libcamera_mianode_jni.xiaomi.so
+system_ext/lib64/libmicampostproc_client.so
+system_ext/lib64/vendor.xiaomi.hardware.campostproc@1.0.so
 
 # Device OpenCL Prebuilts
 system_ext/lib/libOpenCL_system.so
@@ -20,8 +19,6 @@ system_ext/lib64/libopencl-camera.so
 
 # Device Camera Deps
 vendor/bin/f2player
-vendor/lib64/libarcsat.so
-vendor/lib64/libsupermoon.so
 
 # Face3D & MFSR HVX manager
 vendor/etc/face3d/qcnn_concat_file_model-0324_2_encrypted
@@ -115,12 +112,9 @@ vendor/etc/sensors/proto/sns_wrist_tilt_gesture.proto
 # Device Camera Dependencies & Overwrites
 system/lib64/libmqsas.so
 system_ext/lib64/libcameraimpl.so
+system_ext/lib64/libmodemenhance_aidl_client.so
 
 # Camera Dependencies
-vendor/camera/fonts/FZMiaoWuJW.ttf
-vendor/camera/fonts/MFYueYuan-Regular.ttf
-vendor/camera/fonts/MI+LanTing_GB+Outside+YS_V2.3_20160322.ttf
-vendor/camera/fonts/MIUI_Time.ttf
 vendor/etc/camera/102_SummerDay.png
 vendor/etc/camera/103_Fantasy.png
 vendor/etc/camera/104_Meet.png
